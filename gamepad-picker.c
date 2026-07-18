@@ -53,6 +53,14 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    const char *output_path = getenv("GAMEPAD_PICKER_OUTPUT");
+    if (output_path) {
+        FILE *out = fopen(output_path, "w");
+        if (out) {
+            fclose(out);
+        }
+    }
+
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) != 0) {
         fprintf(stderr, "SDL_Init failed: %s\n", SDL_GetError());
         return 2;
@@ -176,6 +184,13 @@ int main(int argc, char *argv[]) {
 
     if (accepted) {
         printf("%s\n", commands[selected]);
+        if (output_path) {
+            FILE *out = fopen(output_path, "w");
+            if (out) {
+                fprintf(out, "%s\n", commands[selected]);
+                fclose(out);
+            }
+        }
     }
 
     free(labels);

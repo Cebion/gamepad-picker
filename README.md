@@ -17,6 +17,8 @@ $ ./gamepad-picker "Deutsch|./game" "English|./game --language en"
 
 Controls: D-pad up/down or left-stick Y axis to navigate, A to confirm, B to cancel. Keyboard up/down/enter/space/escape work too, useful for testing without a controller attached.
 
+If `GAMEPAD_PICKER_OUTPUT` is set to a file path, the chosen command is also written there (truncated to empty at startup). Scripts should read that file rather than capture stdout via `$(...)`, since unrelated output can end up mixed into stdout in some launch environments.
+
 ## Build
 
 ```shell
