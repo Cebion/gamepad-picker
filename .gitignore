@@ -2,3 +2,4 @@
 *.armhf
 *.x86_64
 testing/
+fonts/*.h

@@ -28,14 +28,25 @@ LAUNCH_CMD=$(cat "$GAMEPAD_PICKER_OUTPUT")
 LAUNCH_CMD="${LAUNCH_CMD:-./$BINARY}"
 ```
 
+## Look
+
+The picker uses the same card as [portmsg](https://github.com/PortsMaster/portmsg), PortMaster's message tool. It has the same background, card, fonts and key chips, and it scales from 480x320 to 1080p. Long labels wrap onto more lines instead of being cut off. A long list scrolls with the selection, showing fades and a scrollbar. The footer shows the D-pad, A and B hints.
+
 ## Build
 
 ```shell
-gcc gamepad-picker.c -o gamepad-picker $(pkg-config --cflags --libs sdl2)
+apt-get install -y libsdl2-dev xxd
+make                # -> gamepad-picker.aarch64 (ARCH=armhf / x86_64 to name other native builds)
 ```
 
-Only runtime dependency is `libSDL2`.
+The aarch64 build uses portmsg's own `_start` (`start_aarch64.S`), so the binary only needs GLIBC_2.17. The fonts are compiled in. The only runtime dependency is `libSDL2`.
+
+Dev preview, no display needed: `gamepad-picker.aarch64 --snapshot out.bmp --size 640x480 [--snapshot-selected N] "Label|cmd" ...`
 
 ## License
 
-MIT, see [LICENSE](LICENSE). `font8x8_basic.h` is a separate third-party file, Public Domain.
+MIT, see [LICENSE](LICENSE). Bundled from portmsg:
+- stb_truetype, public domain or MIT.
+- Portmsg Sans, a renamed subset of Lato under the SIL OFL 1.1. See [fonts/OFL.txt](fonts/OFL.txt).
+
+A port that ships the picker needs `LICENSE` and `fonts/OFL.txt` in its `licenses/`.
